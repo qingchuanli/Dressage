@@ -48,7 +48,7 @@ slimerl/slime:nightly-dev-20260430b
 
 ```bash
 git clone --recurse-submodules https://github.com/Accio-Lab/Dressage.git
-cd dressage
+cd Dressage
 ```
 
 > [!TIP]
@@ -224,7 +224,7 @@ dressage-local-bwrap-stop
 For a reproducible environment with all dependencies pre-installed:
 
 ```bash
-# Build the Docker image (base: slimerl/slime:v0.3.0)
+# Build the Docker image
 docker/build.sh
 
 # Run with GPU access
@@ -245,7 +245,7 @@ All Dressage configuration is via environment variables. Here's the complete ref
 
  | Variable | Values | Default | Description |
  | :--------- | :------- | :-------- | :------------ |
- | `DRESSAGE_PADDOCK_MODE` | `blackbox` \ | `whitebox` | `blackbox` | Agent interaction paradigm. Determines paddock subclass. |
+ | `DRESSAGE_PADDOCK_MODE` | `blackbox` \| `whitebox` | `blackbox` | Agent interaction paradigm. Determines paddock subclass. |
  | `DRESSAGE_PADDOCK_CLASS` | `module.Class` | — | Custom paddock class override for specialized lifecycle logic. |
 
 </details>
@@ -256,19 +256,19 @@ All Dressage configuration is via environment variables. Here's the complete ref
 
  | Variable | Values | Default | Description |
  | :--------- | :------- | :-------- | :------------ |
- | `DRESSAGE_SANDBOX_PROVIDER` | `local_bwrap` \ | `e2b` | `local_bwrap` | Sandbox backend. Determines where agent code runs. |
- | `DRESSAGE_LOCAL_BWRAP_POOL_MODE` | `blackbox` \ | `command_only` | Auto: `command_only` for whitebox, otherwise `blackbox` | Bwrap pool mode. Must match paddock mode. |
- | `DRESSAGE_LOCAL_BWRAP_AUTO_START` | `0` \ | `1` | `1` in example scripts | Auto-start the local bwrap pool from run scripts. |
+ | `DRESSAGE_SANDBOX_PROVIDER` | `local_bwrap` \| `e2b` | `local_bwrap` | Sandbox backend. Determines where agent code runs. |
+ | `DRESSAGE_LOCAL_BWRAP_POOL_MODE` | `blackbox` \| `command_only` | Auto: `command_only` for whitebox, otherwise `blackbox` | Bwrap pool mode. Must match paddock mode. |
+ | `DRESSAGE_LOCAL_BWRAP_AUTO_START` | `0` \| `1` | `1` in example scripts | Auto-start the local bwrap pool from run scripts. |
  | `DRESSAGE_LOCAL_BWRAP_RAY_NAMESPACE` | string | `dressage` | Ray namespace for local bwrap actors. |
  | `DRESSAGE_LOCAL_BWRAP_MANAGER_NAME` | string | `dressage_local_bwrap_manager` | Ray actor name for the bwrap pool manager. |
  | `DRESSAGE_LOCAL_BWRAP_TOTAL_SERVERS` | int | computed by scripts | Total bwrap slots across the Ray cluster. |
  | `DRESSAGE_LOCAL_BWRAP_BASE_PORT` | int | `31000` | Base port for local BlackboxServer slots. |
  | `DRESSAGE_BLACKBOX_SLOTS_PER_NODE` | int | script-specific | Local bwrap slot count per Ray node. |
- | `DRESSAGE_BLACKBOX_RUNNER_MODE` | `bwrap` \ | `bubblewrap` | `bwrap` | Local blackbox runner mode. |
+ | `DRESSAGE_BLACKBOX_RUNNER_MODE` | `bwrap` \| `bubblewrap` | `bwrap` | Local blackbox runner mode. |
  | `DRESSAGE_BLACKBOX_BWRAP_BIN` | path | `bwrap` | Bubblewrap binary used by local slots. |
- | `DRESSAGE_LOCAL_BWRAP_DESTROY_ACTORS_ON_STOP` | `0` \ | `1` | `1` | Destroy Ray actors when stopping the pool. |
- | `DRESSAGE_LOCAL_BWRAP_CLEANUP_ON_EXIT` | `0` \ | `1` | `1` | Stop the local bwrap pool on example-script exit. |
- | `DRESSAGE_BLACKBOX_PRESERVE_SESSION_ARTIFACTS` | `0` \ | `1` | `0` | Preserve sandbox filesystem after sessions for debugging. |
+ | `DRESSAGE_LOCAL_BWRAP_DESTROY_ACTORS_ON_STOP` | `0` \| `1` | `1` | Destroy Ray actors when stopping the pool. |
+ | `DRESSAGE_LOCAL_BWRAP_CLEANUP_ON_EXIT` | `0` \| `1` | `1` | Stop the local bwrap pool on example-script exit. |
+ | `DRESSAGE_BLACKBOX_PRESERVE_SESSION_ARTIFACTS` | `0` \| `1` | `0` | Preserve sandbox filesystem after sessions for debugging. |
 
 </details>
 
@@ -279,7 +279,7 @@ All Dressage configuration is via environment variables. Here's the complete ref
  | Variable | Values | Default | Description |
  | :--------- | :------- | :-------- | :------------ |
  | `DRESSAGE_PROXY_URL` | URL | `http://${PROXY_PUBLIC_HOST}:${PROXY_PORT}` or `http://${MASTER_ADDR}:8800` in scripts | Proxy server endpoint. Must be reachable from sandboxes. |
- | `TRAJECTORY_BUILD_MODE` | `concat` \ | `last_step` | `concat` in scripts | Script helper passed to proxy `--trajectory-build-mode`. |
+ | `TRAJECTORY_BUILD_MODE` | `concat` \| `last_step` | `concat` in scripts | Script helper passed to proxy `--trajectory-build-mode`. |
  | `TITO_MODEL` | string | `qwen3_5` in scripts | Script helper passed to proxy `--tito-model`. |
  | `DRESSAGE_PROXY_MAX_STEPS_PER_SESSION` | int | `0` (unlimited) | Returns HTTP 400 before the next proxy generation once the session already has this many steps. |
 
@@ -291,8 +291,8 @@ All Dressage configuration is via environment variables. Here's the complete ref
 
  | Variable | Values | Default | Description |
  | :--------- | :------- | :-------- | :------------ |
- | `DRESSAGE_PROXY_PAUSE_AROUND_WEIGHT_UPDATE` | `0` \ | `1` | `1` | Enable proxy pause/resume around weight updates. |
- | `DRESSAGE_PROXY_PAUSE_REQUIRED` | `0` \ | `1` | — | Require pause to succeed (fail if proxy unreachable). |
+ | `DRESSAGE_PROXY_PAUSE_AROUND_WEIGHT_UPDATE` | `0` \| `1` | `1` | Enable proxy pause/resume around weight updates. |
+ | `DRESSAGE_PROXY_PAUSE_REQUIRED` | `0` \| `1` | — | Require pause to succeed (fail if proxy unreachable). |
  | `DRESSAGE_PROXY_PAUSE_TIMEOUT_SEC` | int | `300` | Timeout for pause confirmation in seconds. |
 
 </details>
@@ -303,7 +303,7 @@ All Dressage configuration is via environment variables. Here's the complete ref
 
  | Variable | Values | Default | Description |
  | :--------- | :------- | :-------- | :------------ |
- | `DRESSAGE_BLACKBOX_TYPE` | `opencode` \ | `openclaw` | `opencode` | Backend agent type. |
+ | `DRESSAGE_BLACKBOX_TYPE` | `opencode` \| `openclaw` | `opencode` | Backend agent type. |
  | `DRESSAGE_BLACKBOX_MAX_STEPS` | int | — | Positive int forwarded to `backend_options.proxy.max_steps`; set `0` to disable the backend proxy step limit. |
  | `DRESSAGE_BLACKBOX_COMPACT_THRESHOLD` | int | — | Positive value no greater than the context window; controls backend compaction reserve sizing. |
  | `BBS_HOST` | host | `0.0.0.0` | BlackboxServer bind host. |
@@ -344,7 +344,7 @@ All Dressage configuration is via environment variables. Here's the complete ref
  | `DRESSAGE_ROLLOUT_MAX_RETRIES` | int | `2` | Per-group rollout retry limit. |
  | `DRESSAGE_ASYNC_NO_PROGRESS_WARN_SEC` | float | `600` | No-progress warning threshold. |
  | `DRESSAGE_ASYNC_MAX_DROPPED_FAILED_GROUPS` | int | — | Maximum failed groups that can be dropped by async rollout. |
- | `DRESSAGE_ALLOW_EMPTY_TRAIN_BATCH` | `0` \ | `1` | `0` | Allow empty train batches after failures. |
+ | `DRESSAGE_ALLOW_EMPTY_TRAIN_BATCH` | `0` \| `1` | `0` | Allow empty train batches after failures. |
 
 </details>
 
@@ -356,7 +356,7 @@ All Dressage configuration is via environment variables. Here's the complete ref
  | :--------- | :------- | :-------- | :------------ |
  | `DRESSAGE_TRAJECTORY_PAYLOAD_LOG_DIR` | path | — | Directory for trajectory payload logs. |
  | `DRESSAGE_TRAJECTORY_ERROR_LOG_DIR` | path | — | Directory for trajectory error logs. |
- | `DRESSAGE_LOG_WRITE_MODE` | `background` \ | `await` | `background` | Log write mode. `background` is faster; `await` ensures logs are flushed before proceeding. |
+ | `DRESSAGE_LOG_WRITE_MODE` | `background` \| `await` | `background` | Log write mode. `background` is faster; `await` ensures logs are flushed before proceeding. |
 
 </details>
 
